@@ -8,7 +8,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "routes/robot_routes.py"
+            "dest": "app.py"
         }
     ]
 }
