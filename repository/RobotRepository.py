@@ -1,10 +1,15 @@
-import sqlite3
+import psycopg2
+from psycopg2 import sql
 from models.robot_model import RobotData
+from dotenv import load_dotenv
+import os 
 
-DB_NAME = "robot_data.db"
+load_dotenv()
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 
 def db_conn():
-    return sqlite3.connect(DB_NAME)
+    return psycopg2.connect(DATABASE_URL)
 
 def get_all_robot_data():
     conn = db_conn()
@@ -19,7 +24,7 @@ def get_all_robot_data():
 def get_robot_data_by_id(data_id):
     conn = db_conn()
     cur = conn.cursor()
-    cur.execute('''SELECT * FROM robot_data WHERE id = ?''', (data_id))
+    cur.execute('''SELECT * FROM robot_data WHERE id = %s''', (data_id))
     row = cur.fetchone()
     cur.close()
     conn.close()
@@ -31,9 +36,9 @@ def get_robot_data_by_id(data_id):
 def create_robot_data(video_url, audio_url, motion):
     conn = db_conn()
     cur = conn.cursor()
-    cur.execute('''INSERT INTO robot_data (video_url, audio_url, motion) VALUES (?, ?, ?)''', (video_url, audio_url, motion))
+    cur.execute('''INSERT INTO robot_data (video_url, audio_url, motion) VALUES (%s, %s, %s) RETURNING id''', (video_url, audio_url, motion))
+    new_id = cur.fetchone()[0]
     conn.commit()
-    new_id = cur.lastrowid
     cur.close()
     conn.close()
     

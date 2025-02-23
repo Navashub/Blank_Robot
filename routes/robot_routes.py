@@ -35,27 +35,6 @@ def create_robot_data_route():
     return jsonify({'message' : 'Robot data stored successfully', 'robot_id' : new_robot_id}), 201
 
 
-
-
-
-
-
-# @robot_bp.route('/api/v1/robot_data', methods=['POST']) 
-# def create_robot_data_route():
-#     video_url, audio_url = None, None
-#     motion = request.form.get("motion", "STOP")
-    
-#     if "video" in request.files:
-#         video = request.files["video"]
-#         video_url = video.filename
-        
-#     if "audio" in request.files:
-#         audio = request.files["audio"]
-#         audio_url = audio.filename
-        
-#     new_robot_id = create_robot_data_service(video_url, audio_url, motion)
-#     return jsonify({'message': 'Robot data stored successfully', 'robot_id': new_robot_id}), 200
-
 @robot_bp.route('/api/v1/robot_data/<int:data_id>', methods=['GET'])
 def get_robot_data_by_id_route(data_id):
     data = get_robot_data_by_id_service(data_id)
