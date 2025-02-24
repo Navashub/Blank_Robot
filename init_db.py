@@ -21,12 +21,6 @@ cur.execute('''
 ''')
 
 
-# cur.execute('''
-#     INSERT INTO robot_data (video_url, audio_url, motion) 
-#     VALUES ( 'FORWARD')
-# ''')
-
-
 conn.commit()
 cur.close()
 conn.close()
